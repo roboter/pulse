@@ -8,3 +8,6 @@ Pulse is an application that automatically changes your wallpaper by downloading
 ![UI](images/UI.png)
 ### Articles
 [guidingtech.com](https://www.guidingtech.com/10320/automatically-download-wallpapers-natgeo-google-images-wallbase/)
+
+### Download
+[Pulse.zip](relase/Pulse.zip)
