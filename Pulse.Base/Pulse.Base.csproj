@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{53B10354-56C0-4440-BBB2-F1F0C330E120}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pulse.Base</RootNamespace>
+    <AssemblyName>Pulse.Base</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CodePlexNewReleaseChecker">
+      <HintPath>..\References\CodePlexNewReleaseChecker.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DownloadManager.cs" />
+    <Compile Include="HttpUtility.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Log.cs" />
+    <Compile Include="Pair.cs" />
+    <Compile Include="PictureBatch.cs" />
+    <Compile Include="Pictures\DownloadQueue.cs" />
+    <Compile Include="Pictures\PictureDownload.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\ProviderIconAttribute.cs" />
+    <Compile Include="Providers\ProviderPlatformAttribute.cs" />
+    <Compile Include="Providers\ActiveProviderInfo.cs" />
+    <Compile Include="GeneralHelper.cs" />
+    <Compile Include="Providers\IInputProvider.cs" />
+    <Compile Include="Providers\IOutputProvider.cs" />
+    <Compile Include="Pictures\Picture.cs" />
+    <Compile Include="Providers\IProvider.cs" />
+    <Compile Include="Pictures\PictureList.cs" />
+    <Compile Include="Pictures\PictureManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ProviderConfigurationAttribute.cs" />
+    <Compile Include="Providers\IProviderConfiguration.cs" />
+    <Compile Include="Providers\ProviderConfigurationClassAttribute.cs" />
+    <Compile Include="Providers\ProviderConfigurationPropertyGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Providers\ProviderConfigurationPropertyGrid.Designer.cs">
+      <DependentUpon>ProviderConfigurationPropertyGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\ProviderConfigurationUserControlAttribute.cs" />
+    <Compile Include="Providers\ProviderManager.cs" />
+    <Compile Include="Pictures\PictureSearch.cs" />
+    <Compile Include="Providers\ProviderRunsAsyncAttribute.cs" />
+    <Compile Include="PulseRunner.cs" />
+    <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Status.cs" />
+    <Compile Include="XmlSerializable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\ProviderConfigurationPropertyGrid.resx">
+      <DependentUpon>ProviderConfigurationPropertyGrid.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_downloading.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Providers\WinAPI\WinAPI.csproj">
+      <Project>{b60087e5-76fe-462f-bdc2-bf25bb01f7e6}</Project>
+      <Name>WinAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

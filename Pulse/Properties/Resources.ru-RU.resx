@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Autumn" xml:space="preserve">
+    <value>Осень</value>
+  </data>
+  <data name="BanImage" xml:space="preserve">
+    <value>Ban Image</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="NextPicture" xml:space="preserve">
+    <value>Следующее изображение</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="OptionsAbout" xml:space="preserve">
+    <value>О программе Pulse</value>
+  </data>
+  <data name="OptionsAboutTabHeader" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="OptionsApplyButton" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="OptionsBehaviour" xml:space="preserve">
+    <value>Поведение</value>
+  </data>
+  <data name="OptionsCache" xml:space="preserve">
+    <value>Временные файлы</value>
+  </data>
+  <data name="OptionsCancelButton" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="OptionsChangeLogonBg" xml:space="preserve">
+    <value>Установить обои как фон экрана входа в систему</value>
+  </data>
+  <data name="OptionsClearCache" xml:space="preserve">
+    <value>Удалять старые изображения</value>
+  </data>
+  <data name="OptionsClearInterval" xml:space="preserve">
+    <value>Удалять изображения загруженные больше {0} назад</value>
+  </data>
+  <data name="OptionsClearNow" xml:space="preserve">
+    <value>Удалить сейчас</value>
+  </data>
+  <data name="OptionsCopyright" xml:space="preserve">
+    <value>Данная программа защищена законом об авторских правах и распространяется под лицензией Microsoft Public Licsense</value>
+  </data>
+  <data name="OptionsDay" xml:space="preserve">
+    <value>дня</value>
+  </data>
+  <data name="OptionsDays" xml:space="preserve">
+    <value>дней</value>
+  </data>
+  <data name="OptionsDownloadAutomatically" xml:space="preserve">
+    <value>Загружать изображения автоматически</value>
+  </data>
+  <data name="OptionsDownloadOnStart" xml:space="preserve">
+    <value>Download Picture on Startup</value>
+  </data>
+  <data name="OptionsFilter" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="OptionsFilterInfo" xml:space="preserve">
+    <value>Чтобы пропускать изображения с определенным содержанием, укажите одно или более ключевых слов. Разделяйте слова запятыми.</value>
+  </data>
+  <data name="OptionsFilterText" xml:space="preserve">
+    <value>Вы можете фильтровать изображения с нежелательным контентом. Введите одно или несколько ключевых слов, разделяя их запятыми (например "дождь, человек, животные").</value>
+  </data>
+  <data name="OptionsGeneralTabHeader" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="OptionsGetMaxRes" xml:space="preserve">
+    <value>Загружать изображения в максимально доступном разрешении</value>
+  </data>
+  <data name="OptionsIntervalHours" xml:space="preserve">
+    <value>ч.</value>
+  </data>
+  <data name="OptionsIntervalMinutes" xml:space="preserve">
+    <value>мин.</value>
+  </data>
+  <data name="OptionsLanguage" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="OptionsLessUpdates" xml:space="preserve">
+    <value>Реже</value>
+  </data>
+  <data name="OptionsMoreUpdates" xml:space="preserve">
+    <value>Чаще</value>
+  </data>
+  <data name="OptionsNewer" xml:space="preserve">
+    <value>Новее</value>
+  </data>
+  <data name="OptionsOkButton" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="OptionsOlder" xml:space="preserve">
+    <value>Старше</value>
+  </data>
+  <data name="OptionsOutputs" xml:space="preserve">
+    <value>Outputs</value>
+  </data>
+  <data name="OptionsPreFetch" xml:space="preserve">
+    <value>Pre Fetch</value>
+  </data>
+  <data name="OptionsRefreshInterval" xml:space="preserve">
+    <value>Интервал обновления:</value>
+  </data>
+  <data name="OptionsRestart" xml:space="preserve">
+    <value>Изменения вступят в силу после перезапуска программы</value>
+  </data>
+  <data name="OptionsSearch" xml:space="preserve">
+    <value>Ключевое слово</value>
+  </data>
+  <data name="OptionsSearchBox" xml:space="preserve">
+    <value>Введите ключевое слово</value>
+  </data>
+  <data name="OptionsSearchResults" xml:space="preserve">
+    <value>Pictures found:</value>
+  </data>
+  <data name="OptionsSkipLowRes" xml:space="preserve">
+    <value>Пропускать изображения с разрешением ниже, чем разрешение экрана</value>
+  </data>
+  <data name="OptionsVersion" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="OptionsWindowTitle" xml:space="preserve">
+    <value>Настройки Pulse</value>
+  </data>
+  <data name="ProviderSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ProviderSettingsTitle" xml:space="preserve">
+    <value>Provider Settings for </value>
+  </data>
+  <data name="Spring" xml:space="preserve">
+    <value>Весна</value>
+  </data>
+  <data name="Summer" xml:space="preserve">
+    <value>Лето</value>
+  </data>
+  <data name="ViewCacheFolder" xml:space="preserve">
+    <value>Open Cache Folder</value>
+  </data>
+  <data name="Winter" xml:space="preserve">
+    <value>Зима</value>
+  </data>
+</root>

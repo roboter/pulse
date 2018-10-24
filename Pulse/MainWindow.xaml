@@ -1,0 +1,9 @@
+﻿<Window x:Class="Pulse.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" ShowInTaskbar="False" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Opacity="0"
+        SourceInitialized="WindowSourceInitialized">
+    <Grid>
+
+    </Grid>
+</Window>

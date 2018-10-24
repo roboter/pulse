@@ -1,0 +1,18 @@
+﻿<Window x:Class="Pulse.ProviderSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings for: " Height="300" Width="387">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <StackPanel Name="spContent">
+                    
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="btnOK" Content="OK" Width="76" Margin="7,0,0,0" Click="btnOK_Click"></Button>
+                    <Button Name="btnCancel" Content="Cancel" Width="76" Margin="7,0,0,0" Click="btnCancel_Click"></Button>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

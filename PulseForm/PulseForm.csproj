@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9C42DE2A-4997-4F68-BD70-7350652DEC37}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PulseForm</RootNamespace>
+    <AssemblyName>Pulse</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>E:\Coding\Pulse\Publications\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://pulse.codeplex.com/releases/clickonce/</InstallUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PulseForm.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>8C1FC752916726E06632AB8BDE6D4E49625B3524</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>PulseForm_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="CodePlexNewReleaseChecker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\CodePlexNewReleaseChecker.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BannedImageReview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BannedImageReview.Designer.cs">
+      <DependentUpon>BannedImageReview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InputProviderPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputProviderPreview.Designer.cs">
+      <DependentUpon>InputProviderPreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewPulseVersion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewPulseVersion.Designer.cs">
+      <DependentUpon>NewPulseVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProviderSettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProviderSettingsWindow.Designer.cs">
+      <DependentUpon>ProviderSettingsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PulseHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PulseHost.Designer.cs">
+      <DependentUpon>PulseHost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PulseOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PulseOptions.Designer.cs">
+      <DependentUpon>PulseOptions.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BannedImageReview.resx">
+      <DependentUpon>BannedImageReview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputProviderPreview.resx">
+      <DependentUpon>InputProviderPreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewPulseVersion.resx">
+      <DependentUpon>NewPulseVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProviderSettingsWindow.resx">
+      <DependentUpon>ProviderSettingsWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PulseHost.resx">
+      <DependentUpon>PulseHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="PulseOptions.resx">
+      <DependentUpon>PulseOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pulse.Base\Pulse.Base.csproj">
+      <Project>{53B10354-56C0-4440-BBB2-F1F0C330E120}</Project>
+      <Name>Pulse.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pulse.Forms.UI\Pulse.Forms.UI.csproj">
+      <Project>{c24743c5-79a5-4549-b59b-50f4e9aa92da}</Project>
+      <Name>Pulse.Forms.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+    <None Include="Resources\PlayHS.png" />
+    <None Include="Resources\Close_16xLG.png" />
+    <None Include="Resources\folder_Open_16xLG.png" />
+    <None Include="Resources\Image_24x.png" />
+    <None Include="Resources\banimage.png" />
+    <None Include="Resources\Image_12x.png" />
+    <None Include="Resources\arrow_Next_16xLG.png" />
+    <None Include="Resources\arrow_previous_16xLG.png" />
+    <None Include="Resources\arrow_Sync_16xMD.png" />
+    <None Include="Resources\arrow_Up_16xLG.png" />
+    <None Include="Resources\ImageListControl_683_12x.png" />
+    <None Include="Resources\ImageListControl_683.png" />
+    <None Include="Resources\GetLatestVersion_13186.png" />
+    <None Include="Resources\timer_16xLG.png" />
+    <None Include="Resources\bug.png" />
+    <None Include="Resources\Addacomment_8818.png" />
+    <None Include="Resources\Symbols_Help_and_inclusive_16xLG.png" />
+    <None Include="Resources\action_Cancel_16xLG.png" />
+    <None Include="Resources\StatusAnnotations_Play_16xLG.png" />
+    <None Include="Resources\StatusAnnotations_Pause_16xLG.png" />
+    <None Include="Resources\StatusAnnotations_Pause_16xLG_color.png" />
+    <None Include="Resources\StatusAnnotations_Play_16xLG_color.png" />
+    <None Include="Resources\properties_16xLG.png" />
+    <None Include="Resources\ShowGridPane_281.png" />
+    <None Include="Resources\startwithoutdebugging_6556.png" />
+    <None Include="Resources\Preview%28Thumbnail%29.png" />
+    <None Include="Resources\Save_6530.png" />
+    <None Include="Resources\Close_6519.png" />
+    <None Include="Resources\Disconnect_9957.png" />
+    <None Include="Resources\AddConnection_477.png" />
+    <None Include="Resources\asset_progressBar_26x26_on.png" />
+    <None Include="Resources\Breakall_6323.png" />
+    <None Include="Resources\PulseIcon.ico" />
+    <None Include="Resources\112_DownArrowLong_Green_24x24_72.png" />
+    <None Include="Resources\112_DownArrowLong_Green_16x16_72.png" />
+    <None Include="Resources\327_Options_16x16_72.png" />
+    <None Include="Resources\InsertPictureHS.png" />
+    <None Include="Resources\OptionsHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
