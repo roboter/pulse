@@ -131,11 +131,11 @@ namespace wallbase
             }
             else if (SA == "user/collection")
             {
-                areaURL += string.Format("http://alpha.wallhaven.cc/user/Aheres/favorites/{0}", CollectionID, "{0}");
+                areaURL += string.Format("https://alpha.wallhaven.cc/user/Aheres/favorites/{0}", CollectionID, "{0}");
             }
             else if (SA == "user/favorites")
             {
-                areaURL += string.Format("http://alpha.wallhaven.cc/favorites/{0}", FavoriteID, "{0}");
+                areaURL += string.Format("https://alpha.wallhaven.cc/favorites/{0}", FavoriteID, "{0}");
             }
 
             return areaURL;

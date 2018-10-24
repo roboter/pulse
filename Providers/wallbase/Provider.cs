@@ -34,18 +34,19 @@ namespace wallbase
 
         public PictureList GetPictures(PictureSearch ps)
         {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, policyErrors) => true;
             WallbaseImageSearchSettings wiss = string.IsNullOrEmpty(ps.SearchProvider.ProviderConfig) ? new WallbaseImageSearchSettings() : WallbaseImageSearchSettings.LoadFromXML(ps.SearchProvider.ProviderConfig);
-                                    
+
             //if max picture count is 0, then no maximum, else specified max
             var maxPictureCount = wiss.GetMaxImageCount(ps.MaxPictureCount);
             int pageSize = wiss.GetPageSize();
-            int pageIndex = (ps.PageToRetrieve<=0?1:ps.PageToRetrieve); //set page to retreive if one is specified
+            int pageIndex = (ps.PageToRetrieve <= 0 ? 1 : ps.PageToRetrieve); //set page to retreive if one is specified
 
             var imgFoundCount = 0;
 
             //authenticate to wallbase
             Authenticate(wiss.Username, wiss.Password);
-            
+
             var wallResults = new List<Picture>();
 
             string areaURL = wiss.BuildURL();
@@ -66,7 +67,7 @@ namespace wallbase
                         //if random then don't post values
                         //if (wiss.SA == "random")
                         //{
-                            content = _client.DownloadString(pageURL);
+                        content = _client.DownloadString(pageURL);
                         //}
                         //else
                         //{
@@ -107,18 +108,17 @@ namespace wallbase
             return result;
         }
 
-        private PictureList FetchPictures(List<Picture> wallResults, bool previewOnly) 
+        private PictureList FetchPictures(List<Picture> wallResults, bool previewOnly)
         {
-            var result = new PictureList() { FetchDate = DateTime.Now };
+            var result = new PictureList { FetchDate = DateTime.Now };
 
             try
             {
-                System.Threading.Tasks.TaskFactory tf = new System.Threading.Tasks.TaskFactory();
-                
                 wallResults
                     .AsParallel()
-                    .WithDegreeOfParallelism(10)
-                    .ForAll(delegate(Picture p){
+                    .WithDegreeOfParallelism(1)
+                    .ForAll(delegate (Picture p)
+                    {
                         try
                         {
                             //save original URL as referrer
@@ -128,7 +128,7 @@ namespace wallbase
                             //get actual image URL if this is not a preview
                             if (!previewOnly)
                                 p.Url = GetDirectPictureUrl(p.Url);
-                            p.Id = System.IO.Path.GetFileNameWithoutExtension(p.Url);
+                            p.Id = Path.GetFileNameWithoutExtension(p.Url);
 
                             if (!string.IsNullOrEmpty(p.Url) && !string.IsNullOrEmpty(p.Id))
                             {
@@ -137,18 +137,14 @@ namespace wallbase
                         }
                         catch (Exception ex)
                         {
-                            Log.Logger.Write(string.Format("Error downloading picture object from '{0}'. Exception details: {0}", ex.ToString()), Log.LoggerLevels.Errors);
-                        }
-                        finally
-                        {
+                            Log.Logger.Write($"Error downloading picture object from '{ex}'. Exception details: {ex}", Log.LoggerLevels.Errors);
                         }
                     });
             }
-            catch(Exception ex) {
-                Log.Logger.Write(string.Format("Error during multi-threaded wallbase.cc image get.  Exception details: {0}", ex.ToString()), Log.LoggerLevels.Errors);
-            }
-            finally
+            catch (Exception ex)
             {
+                Log.Logger.Write(
+                    $"Error during multi-threaded wallbase.cc image get.  Exception details: {ex.ToString()}", Log.LoggerLevels.Errors);
             }
 
             return result;
@@ -180,6 +176,7 @@ namespace wallbase
 
         private string GetDirectPictureUrl(string pageUrl)
         {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, policyErrors) => true;
             using (HttpUtility.CookieAwareWebClient cawc = new HttpUtility.CookieAwareWebClient(_cookies))
             {
                 var content = cawc.DownloadString(pageUrl);
@@ -189,19 +186,19 @@ namespace wallbase
 
                 if (wall.Length > 0)
                 {
-                    return "http:" + wall[0].GetAttribute("src");
+                    return "https:" + wall[0].GetAttribute("data-cfsrc");
                 }
 
                 return string.Empty;
             }
         }
-        
+
         private void Authenticate(string username, string password)
         {
             //if we have a username/password and we aren't already authenticated then authenticate
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                using(HttpUtility.CookieAwareWebClient _client = new HttpUtility.CookieAwareWebClient(_cookies))
+                using (HttpUtility.CookieAwareWebClient _client = new HttpUtility.CookieAwareWebClient(_cookies))
                 {
                     string homepage = _client.DownloadString("http://alpha.wallhaven.cc/");
                     var dom = CQ.CreateDocument(homepage);
@@ -213,7 +210,7 @@ namespace wallbase
 
                         if (loginReg.Length > 0) return;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Log.Logger.Write(string.Format("There was an error trying to check for a pre-existing wallhaven auth, ignoring it.  Exception details: {0}", ex.ToString()), Log.LoggerLevels.Errors);
                     }
@@ -221,7 +218,7 @@ namespace wallbase
                     try
                     {
                         var token = dom["input[name='_token']"].Val<string>();
-                        
+
                         var loginData = new NameValueCollection();
                         loginData.Add("_token", token);
 

@@ -24,16 +24,22 @@ namespace Pulse.Forms.UI
 
             e.DrawBackground();
             e.DrawFocusRectangle();
+            if(e.Index >=0)
+            {
+                string prov = Items[e.Index].ToString();
+                Image img = ProviderManager.Instance.GetProviderIcon(prov);
 
-            string prov = Items[e.Index].ToString();
-            Image img = ProviderManager.Instance.GetProviderIcon(prov);
-
-            // Draw the colored 16 x 16 square
-            if(img != null)
-                e.Graphics.DrawImage(img, new Rectangle(e.Bounds.Left+3, e.Bounds.Top+1, 16, 16));
-            // Draw the value (in this case, the color name)
-            e.Graphics.DrawString(prov, e.Font, new
-                    SolidBrush(e.ForeColor), e.Bounds.Left + 3 + 16, e.Bounds.Top + 2);
+                // Draw the colored 16 x 16 square
+                if (img != null)
+                    e.Graphics.DrawImage(img, new Rectangle(e.Bounds.Left + 3, e.Bounds.Top + 1, 16, 16));
+                // Draw the value (in this case, the color name)
+                e.Graphics.DrawString(
+                    prov,
+                    e.Font,
+                    new SolidBrush(e.ForeColor),
+                    e.Bounds.Left + 3 + 16,
+                    e.Bounds.Top + 2);
+            }
         
 
             base.OnDrawItem(e);

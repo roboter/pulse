@@ -46,10 +46,10 @@ namespace Pulse.Base
 
             //check if we should check for new versions or not, if yes then use the awesome CodePlex version Checker project :)
             Log.Logger.Write(string.Format("Check for new Pulse Versions set to '{0}'", Settings.CurrentSettings.CheckForNewPulseVersions.ToString()), Log.LoggerLevels.Verbose);
-            if (Settings.CurrentSettings.CheckForNewPulseVersions)
-            {
-                CheckForNewVersion();
-            }
+            //if (Settings.CurrentSettings.CheckForNewPulseVersions)
+            //{
+            //    CheckForNewVersion();
+            //}
 
             Log.Logger.Write(string.Format("Clear old pics flag set to '{0}'", Settings.CurrentSettings.ClearOldPics.ToString()), Log.LoggerLevels.Verbose);
 

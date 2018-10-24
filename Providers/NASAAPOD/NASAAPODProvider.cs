@@ -9,14 +9,18 @@ using Pulse.Base.Providers;
 
 namespace NASAAPOD
 {
+    using System.Net.Security;
+    using System.Security.Cryptography.X509Certificates;
+
     [System.ComponentModel.Description("NASA Astronomy Picture of the Day")]
     [ProviderIcon(typeof(Properties.Resources),"nasa")]
     public class NASAAPODProviderza:Pulse.Base.IInputProvider
     {
-        private static string _url = "http://apod.nasa.gov/apod/archivepix.html";
+        private static string _url = "https://apod.nasa.gov/apod/archivepix.html";
 
         public Pulse.Base.PictureList GetPictures(Pulse.Base.PictureSearch ps)
         {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, policyErrors) => true;
             WebClient wc = new WebClient();
 
             //download archive webpage
