@@ -31,7 +31,6 @@ namespace PulseForm
             //create and initialize the runner
             Runner = new PulseRunner();
             //listen for new version available events
-            Runner.NewVersionAvailable += Runner_NewVersionAvailable;
             Runner.BatchChanged += Runner_PictureChanged;
             Runner.TimerStarted += Runner_TimerStarted;
             Runner.TimerStopped += Runner_TimerStopped;
@@ -65,15 +64,6 @@ namespace PulseForm
                 banImageToolStripMenuItem.Enabled = obj.CurrentPictures.Count > 0;
                 previousPictureToolStripMenuItem.Enabled = (obj.PreviousBatch != null && obj.PreviousBatch.CurrentPictures.Count > 0);
             });
-        }
-
-        void Runner_NewVersionAvailable(CodePlexNewReleaseChecker.Release obj)
-        {
-            //show popup that new version is available.
-            NewPulseVersion npv = new NewPulseVersion();
-            npv.LoadRelease(obj);
-
-            npv.ShowDialog();
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)

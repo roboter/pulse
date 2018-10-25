@@ -26,7 +26,7 @@ namespace PulseForm
         public List<ActiveProviderInfo> InputProviderInfos
         {
             get { return _InputProviderInfos; }
-        } 
+        }
 
         public event EventHandler UpdateSettings;
         private readonly List<string> langCodes = new List<string>();
@@ -57,29 +57,12 @@ namespace PulseForm
             cbPrefetch.Checked = Settings.CurrentSettings.PreFetch;
 
             cbRunOnWindowsStartup.Checked = Settings.CurrentSettings.RunOnWindowsStartup;
-            cbCheckForNewVersions.Checked = Settings.CurrentSettings.CheckForNewPulseVersions;
             cbDisableInFullScreen.Checked = Settings.CurrentSettings.SkipChangeIfFullScreen;
-            //frequency
 
-            //LanguageComboBox.Items.Add(new ComboBoxItem() { Content = CultureInfo.GetCultureInfo("en-US").NativeName });
-            //langCodes.Add("en-US");
-            //var langs = from x in Directory.GetDirectories(Settings.Path) where x.Contains("-") select System.IO.Path.GetFileNameWithoutExtension(x);
-            //foreach (var l in langs)
-            //{
-            //    try
-            //    {
-            //        var c = CultureInfo.GetCultureInfo(l);
-            //        langCodes.Add(c.Name);
-            //        LanguageComboBox.Items.Add(new ComboBoxItem() { Content = c.NativeName });
-            //    }
-            //    catch { }
-            //}
-
-            //LanguageComboBox.Text = CultureInfo.GetCultureInfo(Settings.CurrentSettings.Language).NativeName;
 
             cbDeleteOldFiles.Checked = Settings.CurrentSettings.ClearOldPics;
             nudTempAge.Value = Settings.CurrentSettings.ClearInterval;
-            
+
             //input providers
             var inputProviders = ProviderManager.Instance.GetProvidersByType<IInputProvider>();
 
@@ -88,19 +71,19 @@ namespace PulseForm
                 let api = c.Value
                 let provName = api.ProviderName
                 where inputProviders.ContainsKey(provName)
-                select new ActiveProviderInfo(provName, api.ProviderInstanceID) { 
-                        Active = api.Active,
-                        AsyncOK = api.AsyncOK,
-                        ExecutionOrder = api.ExecutionOrder,
-                        ProviderConfig = api.ProviderConfig,
-                        ProviderLabel = api.ProviderLabel
-                    }
-                );
+                select new ActiveProviderInfo(provName, api.ProviderInstanceID)
+                {
+                    Active = api.Active,
+                    AsyncOK = api.AsyncOK,
+                    ExecutionOrder = api.ExecutionOrder,
+                    ProviderConfig = api.ProviderConfig,
+                    ProviderLabel = api.ProviderLabel
+                });
 
             //BindingSource bsInput = new BindingSource();
             //bsInput.DataSource = InputProviderInfos;
             BindProviderListView();
-            
+
             //load into combo box
             BindingSource bs = new BindingSource();
             bs.DataSource = (from c in inputProviders select c.Key).ToList();
@@ -215,11 +198,8 @@ namespace PulseForm
                 }
             }
 
-            //check for new versions on startup?
-            Settings.CurrentSettings.CheckForNewPulseVersions = cbCheckForNewVersions.Checked;
-
             Settings.CurrentSettings.SkipChangeIfFullScreen = cbDisableInFullScreen.Checked;
-            
+
             //save inputs
             foreach (ActiveProviderInfo api in InputProviderInfos)
             {
@@ -324,7 +304,7 @@ namespace PulseForm
                 ListViewItem lvi = lbActiveInputProviders.SelectedItems[0];
                 ActiveProviderInfo api = InputProviderInfos.Where(x => x.ProviderInstanceID == new Guid(lvi.SubItems[1].Text)).SingleOrDefault();
 
-                ActiveProviderInfo apiDup = new ActiveProviderInfo(api.ProviderName) { Active=true, ProviderConfig=api.ProviderConfig };
+                ActiveProviderInfo apiDup = new ActiveProviderInfo(api.ProviderName) { Active = true, ProviderConfig = api.ProviderConfig };
                 InputProviderInfos.Add(apiDup);
 
                 BindProviderListView();

@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Timers;
 using System.IO;
 using System.Threading;
-using System.Resources;
-using CodePlexNewReleaseChecker;
-using System.Threading.Tasks;
 
 namespace Pulse.Base
 {
     public class PulseRunner : IDisposable
     {
         public event Pulse.Base.Status.StatusChanged StatusChanged;
-        public event Action<CodePlexNewReleaseChecker.Release> NewVersionAvailable;
         public event Action<PictureBatch> BatchChanging;
         public event Action<PictureBatch> BatchChanged;
         public event Action TimerStarted;
@@ -44,19 +39,12 @@ namespace Pulse.Base
                 Log.Logger.Write(string.Format("Settings loaded, settings are: {0}", Environment.NewLine + Settings.CurrentSettings.Save()), Log.LoggerLevels.Verbose);
             }
 
-            //check if we should check for new versions or not, if yes then use the awesome CodePlex version Checker project :)
-            Log.Logger.Write(string.Format("Check for new Pulse Versions set to '{0}'", Settings.CurrentSettings.CheckForNewPulseVersions.ToString()), Log.LoggerLevels.Verbose);
-            //if (Settings.CurrentSettings.CheckForNewPulseVersions)
-            //{
-            //    CheckForNewVersion();
-            //}
-
             Log.Logger.Write(string.Format("Clear old pics flag set to '{0}'", Settings.CurrentSettings.ClearOldPics.ToString()), Log.LoggerLevels.Verbose);
 
             if (Settings.CurrentSettings.ClearOldPics)
             {
                 ClearOldWallpapers();
-            }           
+            }
 
             wallpaperChangerTimer.Elapsed += WallpaperChangerTimerTick;
             clearOldWallpapersTimer.Elapsed += clearOldWallpapersTimer_Elapsed;
@@ -64,7 +52,7 @@ namespace Pulse.Base
             UpdateFromConfiguration();
 
             //if we have a provider and we are setup for automatic picture download/change on startup then do so
-            if(CurrentInputProviders.Count > 0)
+            if (CurrentInputProviders.Count > 0)
             {
                 Log.Logger.Write(string.Format("Autodownload wallpaper on startup is: '{0}'", Settings.CurrentSettings.DownloadOnAppStartup.ToString()),
                     Log.LoggerLevels.Information);
@@ -76,37 +64,6 @@ namespace Pulse.Base
 
                     SkipToNextPicture();
                 }
-            }
-        }
-
-        public void CheckForNewVersion()
-        {
-            //NewVersionAvailable
-            try
-            {
-                VersionChecker vcReleasedPageStripper = new VersionChecker("Pulse", new RssFeedReleases());
-
-                //get the release record for the version installed on the client
-                Release client = vcReleasedPageStripper.GetReleaseByName(string.Format("Pulse {0}",
-                                        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-
-                //if we weren't able to find the current version then return
-                if (client == null) return;
-
-                //get the default release
-                Release defaultRelease = vcReleasedPageStripper.GetDefaultRelease();
-
-                //compare against the version installed on client (logic is up to you)
-                if (defaultRelease.ReleaseDate > client.ReleaseDate)
-                {
-                    //Notify user of upgrade
-                    if (NewVersionAvailable != null)
-                        NewVersionAvailable(defaultRelease);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Logger.Write(string.Format("Error checking for new Pulse Versions: {0}", ex.ToString()), Log.LoggerLevels.Warnings);
             }
         }
 
@@ -167,7 +124,8 @@ namespace Pulse.Base
         {
             wallpaperChangerTimer.Stop();
 
-            ThreadStart tstarter = () => {
+            ThreadStart tstarter = () =>
+            {
                 DownloadNextPicture();
 
                 //restart the timer if appropriate
@@ -211,14 +169,14 @@ namespace Pulse.Base
             }
 
             //skip to next photo
-            SkipToNextPicture();        
+            SkipToNextPicture();
         }
 
         protected void DownloadNextPicture()
         {
             if (CurrentInputProviders.Count == 0) return;
             //create the new picture batch
-            PictureBatch pb = new PictureBatch() {PreviousBatch = CurrentBatch};
+            PictureBatch pb = new PictureBatch() { PreviousBatch = CurrentBatch };
 
             //create another view of the input providers, otherwise if the list changes
             // because user changes options then it breaks :)
@@ -236,14 +194,14 @@ namespace Pulse.Base
 
                 //get new pictures
                 PictureList pl = PictureManager.GetPictureList(ps);
-                
+
                 //save to picturebatch 
                 pb.AllPictures.Add(pl);
             }
-            
+
             //process downloaded picture list
             ProcessDownloadedPicture(pb);
-            
+
             //if prefetch is enabled, validate that all pictures have been downloaded
             if (Settings.CurrentSettings.PreFetch) DownloadManager.PreFetchFiles(pb);
         }
@@ -255,7 +213,7 @@ namespace Pulse.Base
 
             RecalculateTimerIntervals();
 
-            if(Settings.CurrentSettings.ClearOldPics)
+            if (Settings.CurrentSettings.ClearOldPics)
                 clearOldWallpapersTimer.Start();
 
             if (Settings.CurrentSettings.ChangeOnTimer)
@@ -415,7 +373,8 @@ namespace Pulse.Base
                                 {
                                     ip.ProcessPicture(pb, config);
                                 }
-                                catch (Exception ex) { 
+                                catch (Exception ex)
+                                {
                                     Log.Logger.Write(string.Format("Error processing output plugin '{0}'.  Error: {1}", op.ProviderName, ex.ToString()), Log.LoggerLevels.Warnings);
                                 }
                                 finally { mre.Set(); }

@@ -34,6 +34,7 @@
             this.tpGeneral = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnChangeCachePath = new System.Windows.Forms.Button();
             this.btnClearNow = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nudTempAge = new System.Windows.Forms.NumericUpDown();
@@ -54,7 +55,6 @@
             this.nudMaxPictureCount = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.btnBannedImageReview = new System.Windows.Forms.Button();
-            this.cbCheckForNewVersions = new System.Windows.Forms.CheckBox();
             this.cbRunOnWindowsStartup = new System.Windows.Forms.CheckBox();
             this.udInterval = new System.Windows.Forms.NumericUpDown();
             this.cbDownloadAutomatically = new System.Windows.Forms.CheckBox();
@@ -79,7 +79,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.fbdCachePath = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnChangeCachePath = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tpGeneral.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -161,6 +160,16 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(275, 58);
             this.panel4.TabIndex = 0;
+            // 
+            // btnChangeCachePath
+            // 
+            this.btnChangeCachePath.Location = new System.Drawing.Point(108, 29);
+            this.btnChangeCachePath.Name = "btnChangeCachePath";
+            this.btnChangeCachePath.Size = new System.Drawing.Size(134, 21);
+            this.btnChangeCachePath.TabIndex = 4;
+            this.btnChangeCachePath.Text = "Change Cache Folder";
+            this.btnChangeCachePath.UseVisualStyleBackColor = true;
+            this.btnChangeCachePath.Click += new System.EventHandler(this.btnChangeCachePath_Click);
             // 
             // btnClearNow
             // 
@@ -359,7 +368,6 @@
             this.panel2.Controls.Add(this.nudMaxPictureCount);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.btnBannedImageReview);
-            this.panel2.Controls.Add(this.cbCheckForNewVersions);
             this.panel2.Controls.Add(this.cbRunOnWindowsStartup);
             this.panel2.Controls.Add(this.udInterval);
             this.panel2.Controls.Add(this.cbDownloadAutomatically);
@@ -378,7 +386,7 @@
             // cbDisableInFullScreen
             // 
             this.cbDisableInFullScreen.AutoSize = true;
-            this.cbDisableInFullScreen.Location = new System.Drawing.Point(2, 192);
+            this.cbDisableInFullScreen.Location = new System.Drawing.Point(2, 172);
             this.cbDisableInFullScreen.Name = "cbDisableInFullScreen";
             this.cbDisableInFullScreen.Size = new System.Drawing.Size(161, 17);
             this.cbDisableInFullScreen.TabIndex = 17;
@@ -430,21 +438,6 @@
             this.btnBannedImageReview.Text = "Review Banned Images";
             this.btnBannedImageReview.UseVisualStyleBackColor = true;
             this.btnBannedImageReview.Click += new System.EventHandler(this.btnBannedImageReview_Click);
-            // 
-            // cbCheckForNewVersions
-            // 
-            this.cbCheckForNewVersions.AutoSize = true;
-            this.cbCheckForNewVersions.Image = ((System.Drawing.Image)(resources.GetObject("cbCheckForNewVersions.Image")));
-            this.cbCheckForNewVersions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cbCheckForNewVersions.Location = new System.Drawing.Point(2, 171);
-            this.cbCheckForNewVersions.Margin = new System.Windows.Forms.Padding(2);
-            this.cbCheckForNewVersions.Name = "cbCheckForNewVersions";
-            this.cbCheckForNewVersions.Size = new System.Drawing.Size(203, 17);
-            this.cbCheckForNewVersions.TabIndex = 13;
-            this.cbCheckForNewVersions.Text = "Check for new versions on startup\r\n";
-            this.cbCheckForNewVersions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.cbCheckForNewVersions.UseVisualStyleBackColor = true;
-            this.cbCheckForNewVersions.CheckedChanged += new System.EventHandler(this.CheckBoxClick);
             // 
             // cbRunOnWindowsStartup
             // 
@@ -751,16 +744,6 @@
             this.panel1.Size = new System.Drawing.Size(587, 45);
             this.panel1.TabIndex = 4;
             // 
-            // btnChangeCachePath
-            // 
-            this.btnChangeCachePath.Location = new System.Drawing.Point(108, 29);
-            this.btnChangeCachePath.Name = "btnChangeCachePath";
-            this.btnChangeCachePath.Size = new System.Drawing.Size(134, 21);
-            this.btnChangeCachePath.TabIndex = 4;
-            this.btnChangeCachePath.Text = "Change Cache Folder";
-            this.btnChangeCachePath.UseVisualStyleBackColor = true;
-            this.btnChangeCachePath.Click += new System.EventHandler(this.btnChangeCachePath_Click);
-            // 
             // frmPulseOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -837,7 +820,6 @@
         private System.Windows.Forms.Button btnPreview;
         private System.Windows.Forms.Button btnRemoveInputProvider;
         private System.Windows.Forms.ListView lbActiveInputProviders;
-        private System.Windows.Forms.CheckBox cbCheckForNewVersions;
         private System.Windows.Forms.Button btnBannedImageReview;
         private System.Windows.Forms.NumericUpDown nudMaxPictureCount;
         private System.Windows.Forms.Label label2;

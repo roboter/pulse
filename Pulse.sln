@@ -38,18 +38,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinAPI", "Providers\WinAPI\WinAPI.csproj", "{B60087E5-76FE-462F-BDC2-BF25BB01F7E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{2DE0B04F-4F15-4FAC-83A0-88849593D557}"
-	ProjectSection(SolutionItems) = preProject
-		References\AppleScriptSlim.dll = References\AppleScriptSlim.dll
-		References\AppleScriptSlim.pdb = References\AppleScriptSlim.pdb
-		References\CodePlexNewReleaseChecker.dll = References\CodePlexNewReleaseChecker.dll
-		References\CodePlexNewReleaseChecker.pdb = References\CodePlexNewReleaseChecker.pdb
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{504B2B05-2EC4-4701-B4D0-66E277208FE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Forms.UI", "Pulse.Forms.UI\Pulse.Forms.UI.csproj", "{C24743C5-79A5-4549-B59B-50F4E9AA92DA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PulseMassDownloader", "PulseMassDownloader\PulseMassDownloader.csproj", "{F74B45BE-9966-41DD-83E9-AD4B271DB890}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,16 +197,6 @@ Global
 		{C24743C5-79A5-4549-B59B-50F4E9AA92DA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C24743C5-79A5-4549-B59B-50F4E9AA92DA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C24743C5-79A5-4549-B59B-50F4E9AA92DA}.Release|x86.ActiveCfg = Release|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F74B45BE-9966-41DD-83E9-AD4B271DB890}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
