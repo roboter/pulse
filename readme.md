@@ -20,4 +20,4 @@ Pulse is an application that automatically changes your wallpaper by downloading
 [https://www.redmondpie.com/pulse-for-windows-7-changes-your-login-screen-background-and-desktop-wallpaper-periodically/](https://www.redmondpie.com/pulse-for-windows-7-changes-your-login-screen-background-and-desktop-wallpaper-periodically/)
 [www.chip.com.tr/konu/masaustu-resimlerini-otomatik-degistirin_27164.html](www.chip.com.tr/konu/masaustu-resimlerini-otomatik-degistirin_27164.html)
 ### Download
-[Pulse.zip](relase/pulse1.0.0.4.zip)
+not available right now
