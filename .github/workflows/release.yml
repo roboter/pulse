@@ -1,0 +1,73 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore Pulse.sln
+
+      - name: Build solution (Release / x86)
+        run: |
+          msbuild Pulse.sln `
+            /p:Configuration=Release `
+            /p:"Platform=Mixed Platforms" `
+            /m
+
+      - name: Collect artifacts
+        shell: pwsh
+        run: |
+          $out = "release-artifacts"
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+
+          Get-ChildItem -Recurse -Include "*.exe","*.dll","*.config" `
+            -Path "." `
+            | Where-Object {
+                $_.FullName -match "\\bin\\(x86\\)?Release\\" -and
+                $_.FullName -notmatch "\\obj\\"
+              } `
+            | Copy-Item -Destination $out -Force
+
+          Get-ChildItem $out | Select-Object Name, Length
+
+      - name: Create ZIP archive
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          Compress-Archive -Path "release-artifacts\*" -DestinationPath "Pulse-$tag.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Pulse ${{ github.ref_name }}"
+          body: |
+            ## Pulse ${{ github.ref_name }}
+
+            ### Installation
+            1. Download and extract `Pulse-${{ github.ref_name }}.zip`
+            2. Run `Pulse.exe`
+
+            ### What Changed
+            See the [commit history](https://github.com/${{ github.repository }}/commits/${{ github.ref_name }}) for details.
+          files: Pulse-${{ github.ref_name }}.zip
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}

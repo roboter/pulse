@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,32 +19,46 @@ namespace NationalGeographicWallpapers
         {
             PictureList pl = new PictureList() { FetchDate = DateTime.Now };
 
-            //general purpose downloader
-            WebClient wc = new WebClient();
-
-            //download pictures page
-            var content = wc.DownloadString(_baseURL + "/wallpaper/download");
-            //get paths to the xml files
-            var xmlPaths = ParseXMLPaths(content);
-
-            //download and parse each xml file
-            foreach (string xmlFile in xmlPaths)
+            try
             {
-                try
+                //general purpose downloader
+                WebClient wc = new WebClient();
+                wc.Headers.Add(HttpRequestHeader.UserAgent,
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36");
+
+                //download pictures page
+                var content = wc.DownloadString(_baseURL + "/wallpaper/download");
+                //get paths to the xml files
+                var xmlPaths = ParseXMLPaths(content);
+
+                //download and parse each xml file
+                foreach (string xmlFile in xmlPaths)
                 {
-                    var pics = ParsePictures(xmlFile);
+                    try
+                    {
+                        var pics = ParsePictures(xmlFile);
 
-                    //clear out banned images
-                    pics = (from c in pics where !ps.BannedURLs.Contains(c.Url) select c).ToList();
+                        //clear out banned images
+                        pics = (from c in pics where !ps.BannedURLs.Contains(c.Url) select c).ToList();
 
-                    pl.Pictures.AddRange(pics);
+                        pl.Pictures.AddRange(pics);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Write(string.Format("Error loading/parsing National Geographic pictures from XML.  XML file URL: '{0}'. Exception details: {1}", _baseURL + xmlFile, ex.ToString()), Log.LoggerLevels.Errors);
+                    }
+
+                    if (pl.Pictures.Count >= (ps.MaxPictureCount > 0 ? ps.MaxPictureCount : int.MaxValue))
+                        break;
                 }
-                catch(Exception ex) {
-                    Log.Logger.Write(string.Format("Error loading/parsing National Geographic pictures from XML.  XML file URL: '{0}'. Exception details: {1}", _baseURL + xmlFile, ex.ToString()), Log.LoggerLevels.Errors);
-                }
-
-                if (pl.Pictures.Count >= (ps.MaxPictureCount > 0 ? ps.MaxPictureCount : int.MaxValue))
-                    break;
+            }
+            catch (WebException ex)
+            {
+                Log.Logger.Write(string.Format("National Geographic provider failed to fetch wallpapers (network error). Exception details: {0}", ex.ToString()), Log.LoggerLevels.Errors);
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Write(string.Format("National Geographic provider encountered an unexpected error. Exception details: {0}", ex.ToString()), Log.LoggerLevels.Errors);
             }
 
             return pl;

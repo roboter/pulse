@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B0B1B2B3-C4C5-D6D7-E8E9-F0A1B2C3D4E5}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pulse.CLI</RootNamespace>
+    <AssemblyName>pulse-cli</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Args.cs" />
+    <Compile Include="ProviderRunner.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pulse.Base\Pulse.Base.csproj">
+      <Project>{53B10354-56C0-4440-BBB2-F1F0C330E120}</Project>
+      <Name>Pulse.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\LocalDirectory\LocalDirectory.csproj">
+      <Project>{624D0297-58E5-4EA7-9FDC-8FA03E82770C}</Project>
+      <Name>LocalDirectory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\MediaRSS\MediaRSSProvider.csproj">
+      <Project>{90B7DC3D-877E-4316-BE1F-9FA611E94D53}</Project>
+      <Name>MediaRSSProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\NASAAPOD\NASAAPOD.csproj">
+      <Project>{F55894BE-FD6B-4C97-8C7E-520BB45D1094}</Project>
+      <Name>NASAAPOD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\NationalGeographicWallpapers\NationalGeographicWallpapers.csproj">
+      <Project>{9FCC0B58-0972-47BF-90CF-4BCEA840C49E}</Project>
+      <Name>NationalGeographicWallpapers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\GoogleImages\GoogleImages.csproj">
+      <Project>{B8F8BC9E-7C0C-46E8-A975-DAB86AD853A4}</Project>
+      <Name>GoogleImages</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

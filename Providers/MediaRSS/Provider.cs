@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,23 +33,28 @@ namespace MediaRSSProvider
         public PictureList GetPictures(PictureSearch ps)
         {
             var result = new PictureList() { FetchDate = DateTime.Now };
-            MediaRSSImageSearchSettings mrssiss = string.IsNullOrEmpty(ps.SearchProvider.ProviderConfig) ?
-                new MediaRSSImageSearchSettings() : MediaRSSImageSearchSettings.LoadFromXML(ps.SearchProvider.ProviderConfig);
+            MediaRSSImageSearchSettings mrssiss = string.IsNullOrEmpty(ps.SearchProvider.ProviderConfig)
+                ? new MediaRSSImageSearchSettings()
+                : (MediaRSSImageSearchSettings.LoadFromXML(ps.SearchProvider.ProviderConfig) ?? new MediaRSSImageSearchSettings());
 
             XDocument feedXML = XDocument.Load(mrssiss.MediaRSSURL);
             XNamespace media = XNamespace.Get("http://search.yahoo.com/mrss/");
 
             var feeds = from feed in feedXML.Descendants("item")
                         let content = feed.Elements(media + "content")
-                        let thumb = feed.Element(media + "thumbnail").Attribute("url").Value
-                        let img = content.Where(x => x.Attribute("medium").Value == "image").SingleOrDefault()
-                        let url = img!=null?img.Attribute("url").Value:thumb
+                        // thumbnail element or attribute may be absent — use null-conditional
+                        let thumb = feed.Element(media + "thumbnail")?.Attribute("url")?.Value
+                        // medium attribute may be absent on some feeds (e.g. DeviantArt) — filter safely
+                        let img = content.Where(x => x.Attribute("medium")?.Value == "image").SingleOrDefault()
+                        let url = img != null ? img.Attribute("url")?.Value : thumb
+                        // skip items where we couldn't resolve any URL
+                        where url != null
                         let id = System.IO.Path.GetFileNameWithoutExtension(url)
                         select new Picture()
                         {
                             Url = url,
                             Id = id.Length > 50 ? id.Substring(0, 50) : id,
-                            Properties = new SerializableDictionary<string,string>(Picture.StandardProperties.Thumbnail,thumb)
+                            Properties = new SerializableDictionary<string,string>(Picture.StandardProperties.Thumbnail, thumb ?? url)
                         };
 
             //get up to the maximum number of pictures, excluding banned images

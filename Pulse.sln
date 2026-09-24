@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
@@ -6,8 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Base", "Pulse.Base\Pulse.Base.csproj", "{53B10354-56C0-4440-BBB2-F1F0C330E120}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{4956BC1F-65B2-490D-8023-BEAC6D5F8E8D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallhaven", "Providers\wallbase\wallhaven.csproj", "{921F5326-5B28-462D-8220-3D3507438C27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleImages", "Providers\GoogleImages\GoogleImages.csproj", "{B8F8BC9E-7C0C-46E8-A975-DAB86AD853A4}"
 EndProject
@@ -43,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{504B2B05
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Forms.UI", "Pulse.Forms.UI\Pulse.Forms.UI.csproj", "{C24743C5-79A5-4549-B59B-50F4E9AA92DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Tests", "Pulse.Tests\Pulse.Tests.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,16 +63,6 @@ Global
 		{53B10354-56C0-4440-BBB2-F1F0C330E120}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{53B10354-56C0-4440-BBB2-F1F0C330E120}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{53B10354-56C0-4440-BBB2-F1F0C330E120}.Release|x86.ActiveCfg = Release|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{921F5326-5B28-462D-8220-3D3507438C27}.Release|x86.ActiveCfg = Release|Any CPU
 		{B8F8BC9E-7C0C-46E8-A975-DAB86AD853A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8F8BC9E-7C0C-46E8-A975-DAB86AD853A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8F8BC9E-7C0C-46E8-A975-DAB86AD853A4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -197,12 +187,21 @@ Global
 		{C24743C5-79A5-4549-B59B-50F4E9AA92DA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C24743C5-79A5-4549-B59B-50F4E9AA92DA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C24743C5-79A5-4549-B59B-50F4E9AA92DA}.Release|x86.ActiveCfg = Release|Any CPU
-	EndGlobalSection
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|x86.ActiveCfg = Release|Any CPU
+		EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{921F5326-5B28-462D-8220-3D3507438C27} = {C42469DC-7D87-4BDF-84B8-3FF5316BBB72}
 		{B8F8BC9E-7C0C-46E8-A975-DAB86AD853A4} = {C42469DC-7D87-4BDF-84B8-3FF5316BBB72}
 		{C42469DC-7D87-4BDF-84B8-3FF5316BBB72} = {4956BC1F-65B2-490D-8023-BEAC6D5F8E8D}
 		{A5762A8E-6988-4832-9606-DB53FE1635FC} = {4956BC1F-65B2-490D-8023-BEAC6D5F8E8D}
@@ -221,4 +220,6 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0F797940-DBEE-48DB-A9D3-01978BE4CDC4}
 	EndGlobalSection
-EndGlobal
+EndProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Tests", "Pulse.Tests\Pulse.Tests.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+EndProject
+Global
