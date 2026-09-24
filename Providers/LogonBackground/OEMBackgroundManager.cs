@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Security.AccessControl;
 using Microsoft.Win32;
 using Pulse.Base;
-using System.Drawing.Imaging;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using Pulse.Base.WinAPI;
 
 namespace LogonBackground

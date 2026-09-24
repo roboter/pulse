@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Pulse.Base.Providers;
 
 namespace Pulse.Base

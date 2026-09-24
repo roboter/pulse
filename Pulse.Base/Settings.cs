@@ -1,8 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Reflection;
 
@@ -90,12 +88,12 @@ namespace Pulse.Base
 
             ProviderSettings.Add(apiWallpaper.ProviderInstanceID, apiWallpaper);
 
-            //set wallbase as default for inputs
-            ActiveProviderInfo apiWallbase = new ActiveProviderInfo("Wallbase");
+            //set wallhaven as default for inputs
+            ActiveProviderInfo apiWallhaven = new ActiveProviderInfo("Wallhaven");
 
-            ProviderSettings.Add(apiWallbase.ProviderInstanceID, apiWallbase);
-            apiWallbase.Active=true;
-            apiWallbase.ExecutionOrder =1;
+            ProviderSettings.Add(apiWallhaven.ProviderInstanceID, apiWallhaven);
+            apiWallhaven.Active = true;
+            apiWallhaven.ExecutionOrder = 1;
         }
 
         public string GetProviderSettings(Guid prov) {

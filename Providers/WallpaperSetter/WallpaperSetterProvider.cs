@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Pulse.Base;
 using Pulse.Base.Providers;
-using Microsoft.Win32;
 using Pulse.Base.WinAPI;
 using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
 
 namespace WallpaperSetter
 {

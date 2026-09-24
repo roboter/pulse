@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Pulse.Base;
 using Pulse.Base.Providers;
@@ -13,8 +13,10 @@ namespace GoogleImages
     [ProviderIcon(typeof(Properties.Resources),"googleImages")]
     public class Provider : IInputProvider
     {
+        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
         private readonly Regex _imagesRegex2 = new Regex(@"imgurl=(?<imgurlgrp>http.*?)&amp;.*?imgrefurl=(?<imgrefgrp>http.*?)&amp;.*?src=[""'](?<thumbURL>.*?)[""'].*?>",RegexOptions.Singleline);//"(imgurl=)(?<imgurl>http.*?)[^&>]*([>&]{1})");
-        private const string baseURL = "http://images.google.com/search?tbm=isch&hl=en&source=hp&biw=&bih=&gbv=1&q={0}{1}&start={2}";
+        private static readonly Regex _imagesRegexJson = new Regex(@"\[""(?<imgurlgrp>https?://[^""]+?\.(?:jpg|jpeg|png|webp)[^""]*?)"",\s*(?<height>\d+),\s*(?<width>\d+)\]", RegexOptions.IgnoreCase);
+        private const string baseURL = "https://images.google.com/search?tbm=isch&hl=en&q={0}{1}&start={2}";
         private readonly CookieContainer _cookies = new CookieContainer();
 
         public Provider()
@@ -76,31 +78,33 @@ namespace GoogleImages
                 var response = string.Empty;
                 using (var client = new HttpUtility.CookieAwareWebClient(_cookies))
                 {
+                    client.Headers[HttpRequestHeader.UserAgent] = UserAgent;
+                    client.Headers[HttpRequestHeader.Accept] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
+                    client.Headers[HttpRequestHeader.AcceptLanguage] = "en-US,en;q=0.9";
                     response = client.DownloadString(url);
                 }
 
                 var images = _imagesRegex2.Matches(response);
-
-                //track number of images found for paging purposes
-                imgFoundCount = images.Count;
-
-                //convert images found into picture entries
-                foreach (Match item in images)
+                if (images.Count > 0)
                 {
-                    var purl = item.Groups["imgurlgrp"].Value;
-                    var referrer = item.Groups["imgrefgrp"].Value;
-                    var thumbnail = item.Groups["thumbURL"].Value;
-                    //get id and trim if necessary (ran into a few cases of rediculously long filenames)
-                    var id = System.IO.Path.GetFileNameWithoutExtension(purl);
-                    if (id.Length > 50) id = id.Substring(0, 50);
-                    //because google images come from so many sites it's not uncommon to have duplicate file names. (we fix this)
-                    id = string.Format("{0}_{1}", id, purl.GetHashCode());
-
-                    var p = new Picture() { Url = purl, Id = id };
-                    p.Properties.Add(Picture.StandardProperties.Thumbnail, thumbnail);
-                    p.Properties.Add(Picture.StandardProperties.Referrer, referrer);
-
-                    result.Pictures.Add(p);
+                    imgFoundCount = images.Count;
+                    foreach (Match item in images)
+                    {
+                        var purl = item.Groups["imgurlgrp"].Value;
+                        var referrer = item.Groups["imgrefgrp"].Value;
+                        var thumbnail = item.Groups["thumbURL"].Value;
+                        AddPicture(result, purl, referrer, thumbnail);
+                    }
+                }
+                else
+                {
+                    var jsonImages = _imagesRegexJson.Matches(response);
+                    imgFoundCount = jsonImages.Count;
+                    foreach (Match item in jsonImages)
+                    {
+                        var purl = Regex.Unescape(item.Groups["imgurlgrp"].Value);
+                        AddPicture(result, purl, string.Empty, string.Empty);
+                    }
                 }
 
                 //if we have an image ban list check for them
@@ -121,12 +125,31 @@ namespace GoogleImages
             return result;
         }
 
+        private static void AddPicture(PictureList result, string purl, string referrer, string thumbnail)
+        {
+            if (string.IsNullOrEmpty(purl)) return;
+            var id = System.IO.Path.GetFileNameWithoutExtension(purl);
+            if (id.Length > 50) id = id.Substring(0, 50);
+            id = string.Format("{0}_{1}", id, purl.GetHashCode());
+
+            var p = new Picture() { Url = purl, Id = id };
+            if (!string.IsNullOrEmpty(thumbnail))
+                p.Properties.Add(Picture.StandardProperties.Thumbnail, thumbnail);
+            if (!string.IsNullOrEmpty(referrer))
+                p.Properties.Add(Picture.StandardProperties.Referrer, referrer);
+
+            result.Pictures.Add(p);
+        }
+
         private void SetSafeSearchSetting(GoogleImageSearchSettings.GoogleSafeSearchOptions gsso)
         {
             using (var client = new HttpUtility.CookieAwareWebClient(_cookies))
             {
+                client.Headers[HttpRequestHeader.UserAgent] = UserAgent;
+                client.Headers[HttpRequestHeader.Accept] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
+                client.Headers[HttpRequestHeader.AcceptLanguage] = "en-US,en;q=0.9";
                 //First we need to access the preferences page so we can get the special ID
-                var response = client.DownloadString("http://images.google.com/preferences?hl=en");
+                var response = client.DownloadString("https://images.google.com/preferences?hl=en");
                 //parse out signature
                 var specialID = Regex.Match(response, "<input type=\"hidden\" name=\"sig\" value=\"(?<sig>.*?)\">").Groups["sig"].Value;
 
@@ -141,7 +164,7 @@ namespace GoogleImages
                         break;
                 }
                 //set prefs
-                string url = string.Format("http://images.google.com/setprefs?sig={0}&hl=en&lr=lang_en&uulo=1&muul=4_20&luul=&safeui={1}&suggon=1&newwindow=0&q=",
+                string url = string.Format("https://images.google.com/setprefs?sig={0}&hl=en&lr=lang_en&uulo=1&muul=4_20&luul=&safeui={1}&suggon=1&newwindow=0&q=",
                                 specialID.Replace("=", "%3D"), safeUIOption);
 
                 var finalResponse = client.DownloadString(url);

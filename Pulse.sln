@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
@@ -42,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Forms.UI", "Pulse.Forms.UI\Pulse.Forms.UI.csproj", "{C24743C5-79A5-4549-B59B-50F4E9AA92DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Tests", "Pulse.Tests\Pulse.Tests.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallhaven", "Providers\Wallhaven\Wallhaven.csproj", "{921F5326-5B28-462D-8220-3D3507438C27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,6 +199,16 @@ Global
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|x86.ActiveCfg = Release|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{921F5326-5B28-462D-8220-3D3507438C27}.Release|x86.ActiveCfg = Release|Any CPU
 		EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,10 +228,9 @@ Global
 		{1E7B8D85-3542-446F-BAA5-87F67FE0183F} = {4956BC1F-65B2-490D-8023-BEAC6D5F8E8D}
 		{B60087E5-76FE-462F-BDC2-BF25BB01F7E6} = {1E7B8D85-3542-446F-BAA5-87F67FE0183F}
 		{504B2B05-2EC4-4701-B4D0-66E277208FE8} = {4956BC1F-65B2-490D-8023-BEAC6D5F8E8D}
+		{921F5326-5B28-462D-8220-3D3507438C27} = {C42469DC-7D87-4BDF-84B8-3FF5316BBB72}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0F797940-DBEE-48DB-A9D3-01978BE4CDC4}
 	EndGlobalSection
-EndProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse.Tests", "Pulse.Tests\Pulse.Tests.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
-EndProject
-Global
+EndGlobal

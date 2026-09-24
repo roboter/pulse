@@ -1,6 +1,6 @@
-﻿using System;using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Pulse.Base;
 using System.IO;
 using Pulse.Base.Providers;

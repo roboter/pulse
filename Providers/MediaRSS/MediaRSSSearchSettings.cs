@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using System.Windows;
-using Pulse.Base;
-
-namespace MediaRSSProvider
+﻿namespace MediaRSSProvider
 {
     public class MediaRSSImageSearchSettings : Pulse.Base.XmlSerializable<MediaRSSImageSearchSettings>
     {

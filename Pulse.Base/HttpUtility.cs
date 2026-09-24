@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Text;
 using System.Net;
-using System.Collections;
 
 namespace Pulse.Base
 {
@@ -155,16 +152,21 @@ namespace Pulse.Base
 
         public class CookieAwareWebClient : WebClient
         {
+            public const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
+
             public CookieContainer Cookies { get; set; }
             public string Referrer { get; set; }
+            public string UserAgent { get; set; }
 
             public CookieAwareWebClient() {
                 Cookies = new CookieContainer();
+                UserAgent = DefaultUserAgent;
             }
 
             public CookieAwareWebClient(CookieContainer cookies)
             {
                 Cookies = cookies;
+                UserAgent = DefaultUserAgent;
             }
 
             protected override WebRequest GetWebRequest(Uri address)
@@ -179,6 +181,9 @@ namespace Pulse.Base
                     //if we have a custom referrer, and we aren't involved in a redirect, then use our custom referrer
                     if (!string.IsNullOrEmpty(Referrer) && string.IsNullOrEmpty(httpRequest.Referer))
                         httpRequest.Referer = Referrer;
+
+                    if (!string.IsNullOrEmpty(UserAgent) && string.IsNullOrEmpty(httpRequest.UserAgent))
+                        httpRequest.UserAgent = UserAgent;
                 }
                 return request;
             }

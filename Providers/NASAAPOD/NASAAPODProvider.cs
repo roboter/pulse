@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net;
 using System.Text.RegularExpressions;
 using Pulse.Base;
@@ -9,9 +7,6 @@ using Pulse.Base.Providers;
 
 namespace NASAAPOD
 {
-    using System.Net.Security;
-    using System.Security.Cryptography.X509Certificates;
-
     [System.ComponentModel.Description("NASA Astronomy Picture of the Day")]
     [ProviderIcon(typeof(Properties.Resources),"nasa")]
     public class NASAAPODProviderza:Pulse.Base.IInputProvider

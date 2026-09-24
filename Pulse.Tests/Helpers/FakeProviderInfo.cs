@@ -1,4 +1,3 @@
-using System;
 using Pulse.Base;
 
 namespace Pulse.Tests.Helpers

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Pulse.Base;
 using System.Drawing;
 using Pulse.Base.WinAPI;

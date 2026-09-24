@@ -53,6 +53,7 @@
     <Compile Include="Providers\NasaApodProviderTests.cs" />
     <Compile Include="Providers\NationalGeographicProviderTests.cs" />
     <Compile Include="Providers\GoogleImagesProviderTests.cs" />
+    <Compile Include="Providers\WallhavenProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pulse.Base\Pulse.Base.csproj">
@@ -78,6 +79,10 @@
     <ProjectReference Include="..\Providers\GoogleImages\GoogleImages.csproj">
       <Project>{B8F8BC9E-7C0C-46E8-A975-DAB86AD853A4}</Project>
       <Name>GoogleImages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\Wallhaven\Wallhaven.csproj">
+      <Project>{921F5326-5B28-462D-8220-3D3507438C27}</Project>
+      <Name>wallhaven</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

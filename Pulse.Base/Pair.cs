@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Pulse.Base
+﻿namespace Pulse.Base
 {
     public class Pair<T, U>
     {

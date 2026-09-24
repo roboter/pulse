@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Pulse.Base
+﻿namespace Pulse.Base
 {
     /// <summary>
     /// Gathers pictures using a provider defined method
