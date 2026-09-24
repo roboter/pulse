@@ -2,15 +2,20 @@ name: Build & Release
 
 on:
   push:
+    branches:
+      - master
     tags:
-      - 'v*.*.*'
+      - 'v*'
+  pull_request:
+    branches:
+      - master
 
 permissions:
   contents: write
 
 jobs:
-  build:
-    name: Build Release
+  test:
+    name: Run Tests
     runs-on: windows-latest
 
     steps:
@@ -26,37 +31,66 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore Pulse.sln
 
-      - name: Build solution (Release / x86)
+      - name: Build solution (Release / Mixed Platforms)
         run: |
           msbuild Pulse.sln `
             /p:Configuration=Release `
             /p:"Platform=Mixed Platforms" `
             /m
 
-      - name: Collect artifacts
+      - name: Run unit tests
+        shell: pwsh
+        run: |
+          dotnet test Pulse.Tests\bin\Release\Pulse.Tests.dll `
+            --test-adapter-path packages\MSTest.TestAdapter.3.6.0\build\net462 `
+            --logger "console;verbosity=normal"
+
+      - name: Collect release artifacts
+        if: startsWith(github.ref, 'refs/tags/v')
         shell: pwsh
         run: |
           $out = "release-artifacts"
           New-Item -ItemType Directory -Force -Path $out | Out-Null
 
-          Get-ChildItem -Recurse -Include "*.exe","*.dll","*.config" `
-            -Path "." `
-            | Where-Object {
-                $_.FullName -match "\\bin\\(x86\\)?Release\\" -and
-                $_.FullName -notmatch "\\obj\\"
-              } `
-            | Copy-Item -Destination $out -Force
+          Copy-Item -Path "bin\Release\*" -Destination $out -Recurse
+          Remove-Item -Force -Recurse (Join-Path $out "app.publish") -ErrorAction SilentlyContinue
+          Get-ChildItem -Path $out -Filter "*.pdb" -Recurse | Remove-Item -Force
 
           Get-ChildItem $out | Select-Object Name, Length
+          Get-ChildItem (Join-Path $out "Providers") | Select-Object Name, Length
 
       - name: Create ZIP archive
+        if: startsWith(github.ref, 'refs/tags/v')
         shell: pwsh
         run: |
           $tag = "${{ github.ref_name }}"
           Compress-Archive -Path "release-artifacts\*" -DestinationPath "Pulse-$tag.zip"
 
+      - name: Upload Release Archive
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: pulse-release
+          path: Pulse-${{ github.ref_name }}.zip
+          if-no-files-found: error
+
+  release:
+    name: Publish Release
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Release Archive
+        uses: actions/download-artifact@v4
+        with:
+          name: pulse-release
+          path: .
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: "Pulse ${{ github.ref_name }}"
           body: |
