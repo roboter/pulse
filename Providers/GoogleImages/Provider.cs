@@ -1,23 +1,21 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Web.Script.Serialization;
 using Pulse.Base;
 using Pulse.Base.Providers;
-using System.Text.RegularExpressions;
-using System.Net;
 
 namespace GoogleImages
 {
-    //[ProviderConfigurationUserControl(typeof(GoogleImageProviderPreferences))]
     [ProviderConfigurationClass(typeof(GoogleImageSearchSettings))]
     [System.ComponentModel.Description("Google Images")]
-    [ProviderIcon(typeof(Properties.Resources),"googleImages")]
+    [ProviderIcon(typeof(Properties.Resources), "googleImages")]
     public class Provider : IInputProvider
     {
-        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
-        private readonly Regex _imagesRegex2 = new Regex(@"imgurl=(?<imgurlgrp>http.*?)&amp;.*?imgrefurl=(?<imgrefgrp>http.*?)&amp;.*?src=[""'](?<thumbURL>.*?)[""'].*?>",RegexOptions.Singleline);//"(imgurl=)(?<imgurl>http.*?)[^&>]*([>&]{1})");
-        private static readonly Regex _imagesRegexJson = new Regex(@"\[""(?<imgurlgrp>https?://[^""]+?\.(?:jpg|jpeg|png|webp)[^""]*?)"",\s*(?<height>\d+),\s*(?<width>\d+)\]", RegexOptions.IgnoreCase);
-        private const string baseURL = "https://images.google.com/search?tbm=isch&hl=en&q={0}{1}&start={2}";
-        private readonly CookieContainer _cookies = new CookieContainer();
+        private readonly JavaScriptSerializer _serializer = new JavaScriptSerializer();
+        private const string UserAgent = "Pulse/1.0 (Windows; Wallpaper changer)";
 
         public Provider()
         {
@@ -25,150 +23,202 @@ namespace GoogleImages
 
         public void Initialize(object args)
         {
-            //nothing to do here
+            ServicePointManager.Expect100Continue = false;
+            try
+            {
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+            }
+            catch { }
         }
 
         public void Activate(object args) { }
         public void Deactivate(object args) { }
 
-
         public PictureList GetPictures(PictureSearch ps)
         {
-            var result = new PictureList() { FetchDate = DateTime.Now };
+            var result = new PictureList { FetchDate = DateTime.Now };
 
-            //load provider search settings
-            GoogleImageSearchSettings giss = GoogleImageSearchSettings.LoadFromXML(ps.SearchProvider.ProviderConfig) ??
-                                             new GoogleImageSearchSettings();
+            GoogleImageSearchSettings settings = string.IsNullOrEmpty(ps.SearchProvider?.ProviderConfig)
+                ? new GoogleImageSearchSettings()
+                : GoogleImageSearchSettings.LoadFromXML(ps.SearchProvider.ProviderConfig) ?? new GoogleImageSearchSettings();
 
-            //if search is empty, return now since we can't search without it
-            if (string.IsNullOrEmpty(giss.Query)) return result;
-
-            var pageIndex = ps.PageToRetrieve; //set page to retrieve if one specified
-            var imgFoundCount = 0;
-            
-            //if max picture count is 0, then no maximum, else specified max
-            var maxPictureCount = ps.MaxPictureCount > 0?ps.MaxPictureCount : int.MaxValue;
-
-            //build tbs strring
-            var tbs = "";//isz:ex,iszw:{1},iszh:{2}
-
-            //handle sizeing
-            if (giss.ImageHeight > 0 && giss.ImageWidth > 0)
+            if (string.IsNullOrEmpty(settings.Query))
             {
-                tbs += string.Format("isz:ex,iszw:{0},iszh:{1},", giss.ImageWidth, giss.ImageHeight);
+                return result;
             }
 
-            //handle colors
-            if (!string.IsNullOrEmpty(giss.Color))
+            if (string.IsNullOrWhiteSpace(settings.ApiKey) || string.IsNullOrWhiteSpace(settings.SearchEngineId))
             {
-                tbs += GoogleImageSearchSettings.GoogleImageColors.GetColorSearchString((from c in GoogleImageSearchSettings.GoogleImageColors.GetColors() where c.Value == giss.Color select c).Single()) + ",";
+                Log.Logger.Write("Google Images Provider: An API Key and Search Engine ID (CX) are required. Please configure them in Google Images Provider Settings (obtain from Google Cloud Console & programmablesearchengine.google.com).", Log.LoggerLevels.Warnings);
+                return result;
             }
 
-            //if we have a filter string then add it and trim off trailing commas
-            if (!string.IsNullOrEmpty(tbs)) tbs = ("&tbs=" + tbs).Trim(new char[]{','});
-
-            //do safe search setup (off/strict/moderate) this is part of the session and tracked via cookies
-            //SetSafeSearchSetting(giss.GoogleSafeSearchOption);
+            int maxPictures = ps.MaxPictureCount > 0 ? ps.MaxPictureCount : 10;
+            int pageIndex = ps.PageToRetrieve > 0 ? ps.PageToRetrieve : 1;
+            int startIndex = (pageIndex - 1) * 10 + 1;
 
             do
             {
-                //build URL from query, dimensions and page index
-                var url = string.Format(baseURL, giss.Query, tbs, (pageIndex * 20));
+                int countToFetch = Math.Min(10, maxPictures - result.Pictures.Count);
+                string searchUrl = settings.BuildUrl(startIndex, countToFetch);
+                string jsonResponse = null;
 
-                var response = string.Empty;
-                using (var client = new HttpUtility.CookieAwareWebClient(_cookies))
+                try
                 {
-                    client.Headers[HttpRequestHeader.UserAgent] = UserAgent;
-                    client.Headers[HttpRequestHeader.Accept] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
-                    client.Headers[HttpRequestHeader.AcceptLanguage] = "en-US,en;q=0.9";
-                    response = client.DownloadString(url);
-                }
-
-                var images = _imagesRegex2.Matches(response);
-                if (images.Count > 0)
-                {
-                    imgFoundCount = images.Count;
-                    foreach (Match item in images)
+                    using (var client = new WebClient())
                     {
-                        var purl = item.Groups["imgurlgrp"].Value;
-                        var referrer = item.Groups["imgrefgrp"].Value;
-                        var thumbnail = item.Groups["thumbURL"].Value;
-                        AddPicture(result, purl, referrer, thumbnail);
+                        client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent);
+                        client.Headers.Add(HttpRequestHeader.Accept, "application/json");
+                        client.Encoding = System.Text.Encoding.UTF8;
+                        jsonResponse = client.DownloadString(searchUrl);
                     }
                 }
-                else
+                catch (WebException wex)
                 {
-                    var jsonImages = _imagesRegexJson.Matches(response);
-                    imgFoundCount = jsonImages.Count;
-                    foreach (Match item in jsonImages)
+                    var httpResp = wex.Response as HttpWebResponse;
+                    string errDetail = string.Empty;
+                    if (wex.Response != null)
                     {
-                        var purl = Regex.Unescape(item.Groups["imgurlgrp"].Value);
-                        AddPicture(result, purl, string.Empty, string.Empty);
+                        try
+                        {
+                            using (var sr = new StreamReader(wex.Response.GetResponseStream()))
+                            {
+                                string errBody = sr.ReadToEnd();
+                                var errObj = _serializer.Deserialize<GoogleCustomSearchErrorResponse>(errBody);
+                                if (errObj?.error != null)
+                                {
+                                    errDetail = string.Format(" Code {0}: {1}", errObj.error.code, errObj.error.message);
+                                }
+                            }
+                        }
+                        catch { }
                     }
-                }
 
-                //if we have an image ban list check for them
-                // doing this in the provider instead of picture manager
-                // ensures that our count does not go down if we have a max
-                if (ps.BannedURLs != null && ps.BannedURLs.Count > 0)
+                    if (httpResp != null && httpResp.StatusCode == HttpStatusCode.Forbidden)
+                    {
+                        Log.Logger.Write(string.Format("Google Custom Search API error: Daily quota exceeded or invalid API Key / CX.{0}", errDetail), Log.LoggerLevels.Errors);
+                    }
+                    else if (httpResp != null && httpResp.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        Log.Logger.Write(string.Format("Google Custom Search API error: Bad request. Please check Search Engine ID (CX) and query.{0}", errDetail), Log.LoggerLevels.Errors);
+                    }
+                    else
+                    {
+                        Log.Logger.Write(string.Format("Google Custom Search API request failed: {0}.{1}", wex.Message, errDetail), Log.LoggerLevels.Warnings);
+                    }
+                    break;
+                }
+                catch (Exception ex)
                 {
-                    result.Pictures = (from c in result.Pictures where !(ps.BannedURLs.Contains(c.Url)) select c).ToList();
+                    Log.Logger.Write(string.Format("Error fetching Google Custom Search images: {0}", ex.Message), Log.LoggerLevels.Errors);
+                    break;
                 }
 
-                //increment page index so we can get the next 20 images if they exist
-                pageIndex++;
-                // Max Picture count is defined in search settings passed in, check for it here too
-            } while (imgFoundCount > 0 && result.Pictures.Count < maxPictureCount && ps.PageToRetrieve == 0);
+                if (string.IsNullOrEmpty(jsonResponse))
+                    break;
 
-            result.Pictures = result.Pictures.Take(maxPictureCount).ToList();
+                GoogleCustomSearchResponse apiResponse;
+                try
+                {
+                    apiResponse = _serializer.Deserialize<GoogleCustomSearchResponse>(jsonResponse);
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Write(string.Format("Failed to deserialize Google Custom Search API response: {0}", ex.Message), Log.LoggerLevels.Errors);
+                    break;
+                }
+
+                if (apiResponse?.items == null || apiResponse.items.Count == 0)
+                    break;
+
+                foreach (var item in apiResponse.items)
+                {
+                    if (string.IsNullOrWhiteSpace(item.link)) continue;
+
+                    if (ps.BannedURLs != null && ps.BannedURLs.Contains(item.link)) continue;
+
+                    AddPicture(result, item.link, item.image?.contextLink ?? item.displayLink, item.image?.thumbnailLink, item.title);
+
+                    if (result.Pictures.Count >= maxPictures)
+                        break;
+                }
+
+                startIndex += 10;
+            } while (result.Pictures.Count < maxPictures && startIndex <= 91 && ps.PageToRetrieve == 0);
 
             return result;
         }
 
-        private static void AddPicture(PictureList result, string purl, string referrer, string thumbnail)
+        private static void AddPicture(PictureList result, string purl, string referrer, string thumbnail, string title)
         {
             if (string.IsNullOrEmpty(purl)) return;
-            var id = System.IO.Path.GetFileNameWithoutExtension(purl);
-            if (id.Length > 50) id = id.Substring(0, 50);
-            id = string.Format("{0}_{1}", id, purl.GetHashCode());
 
-            var p = new Picture() { Url = purl, Id = id };
+            string id = Path.GetFileNameWithoutExtension(purl);
+            if (string.IsNullOrEmpty(id) || id.Length > 50)
+            {
+                id = id != null && id.Length > 50 ? id.Substring(0, 50) : "google_img";
+            }
+            id = string.Format("{0}_{1:X8}", id, (uint)purl.GetHashCode());
+
+            var p = new Picture { Url = purl, Id = id };
+
             if (!string.IsNullOrEmpty(thumbnail))
                 p.Properties.Add(Picture.StandardProperties.Thumbnail, thumbnail);
             if (!string.IsNullOrEmpty(referrer))
                 p.Properties.Add(Picture.StandardProperties.Referrer, referrer);
+            if (!string.IsNullOrEmpty(title))
+                p.Properties.Add("Title", title);
+
+            p.Properties.Add(Picture.StandardProperties.ProviderLabel, "Google Images");
 
             result.Pictures.Add(p);
         }
-
-        private void SetSafeSearchSetting(GoogleImageSearchSettings.GoogleSafeSearchOptions gsso)
-        {
-            using (var client = new HttpUtility.CookieAwareWebClient(_cookies))
-            {
-                client.Headers[HttpRequestHeader.UserAgent] = UserAgent;
-                client.Headers[HttpRequestHeader.Accept] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
-                client.Headers[HttpRequestHeader.AcceptLanguage] = "en-US,en;q=0.9";
-                //First we need to access the preferences page so we can get the special ID
-                var response = client.DownloadString("https://images.google.com/preferences?hl=en");
-                //parse out signature
-                var specialID = Regex.Match(response, "<input type=\"hidden\" name=\"sig\" value=\"(?<sig>.*?)\">").Groups["sig"].Value;
-
-                //options are "on", "images", "off"
-                var safeUIOption = "";
-                switch(gsso) {
-                    case GoogleImageSearchSettings.GoogleSafeSearchOptions.Off:
-                        safeUIOption = "off";
-                        break;
-                    case GoogleImageSearchSettings.GoogleSafeSearchOptions.On:
-                        safeUIOption = "on";
-                        break;
-                }
-                //set prefs
-                string url = string.Format("https://images.google.com/setprefs?sig={0}&hl=en&lr=lang_en&uulo=1&muul=4_20&luul=&safeui={1}&suggon=1&newwindow=0&q=",
-                                specialID.Replace("=", "%3D"), safeUIOption);
-
-                var finalResponse = client.DownloadString(url);
-            }
-        }
     }
+
+    #region Google Custom Search JSON API Models
+    public class GoogleCustomSearchResponse
+    {
+        public GoogleCustomSearchSearchInformation searchInformation { get; set; }
+        public List<GoogleCustomSearchItem> items { get; set; }
+    }
+
+    public class GoogleCustomSearchSearchInformation
+    {
+        public string totalResults { get; set; }
+        public double searchTime { get; set; }
+    }
+
+    public class GoogleCustomSearchItem
+    {
+        public string title { get; set; }
+        public string link { get; set; }
+        public string displayLink { get; set; }
+        public string snippet { get; set; }
+        public string mime { get; set; }
+        public GoogleCustomSearchImage image { get; set; }
+    }
+
+    public class GoogleCustomSearchImage
+    {
+        public string contextLink { get; set; }
+        public int height { get; set; }
+        public int width { get; set; }
+        public long byteSize { get; set; }
+        public string thumbnailLink { get; set; }
+        public int thumbnailHeight { get; set; }
+        public int thumbnailWidth { get; set; }
+    }
+
+    public class GoogleCustomSearchErrorResponse
+    {
+        public GoogleCustomSearchErrorDetails error { get; set; }
+    }
+
+    public class GoogleCustomSearchErrorDetails
+    {
+        public int code { get; set; }
+        public string message { get; set; }
+        public string status { get; set; }
+    }
+    #endregion
 }

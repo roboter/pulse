@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -40,8 +40,10 @@ namespace NASAAPOD
             //build url's, skip banned items, randomly sort the items and only bring back the desired number
             // all in one go
             pl.Pictures.AddRange((from Match c in matchesToGet
-                                 let photoPage = new WebClient().DownloadString("http://apod.nasa.gov/apod/" + c.Groups["picPage"].Value)
-                                 let photoURL = "http://apod.nasa.gov/apod/" + regPic.Match(photoPage).Groups["picURL"].Value
+                                 let photoPage = new WebClient().DownloadString("https://apod.nasa.gov/apod/" + c.Groups["picPage"].Value)
+                                 let picMatch = regPic.Match(photoPage)
+                                 where picMatch.Success && !string.IsNullOrWhiteSpace(picMatch.Groups["picURL"].Value)
+                                 let photoURL = "https://apod.nasa.gov/apod/" + picMatch.Groups["picURL"].Value
                                  where !ps.BannedURLs.Contains(photoURL)
                                  select new Picture() {Url = photoURL, Id=System.IO.Path.GetFileNameWithoutExtension(photoURL)}));
 
