@@ -31,7 +31,22 @@ namespace MediaRSSProvider
                 ? new MediaRSSImageSearchSettings()
                 : (MediaRSSImageSearchSettings.LoadFromXML(ps.SearchProvider.ProviderConfig) ?? new MediaRSSImageSearchSettings());
 
-            XDocument feedXML = XDocument.Load(mrssiss.MediaRSSURL);
+            XDocument feedXML;
+            if (Uri.TryCreate(mrssiss.MediaRSSURL, UriKind.Absolute, out Uri feedUri) &&
+                (feedUri.Scheme == Uri.UriSchemeHttp || feedUri.Scheme == Uri.UriSchemeHttps))
+            {
+                var request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(feedUri);
+                request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    feedXML = XDocument.Load(stream);
+                }
+            }
+            else
+            {
+                feedXML = XDocument.Load(mrssiss.MediaRSSURL);
+            }
             XNamespace media = XNamespace.Get("http://search.yahoo.com/mrss/");
 
             var feeds = from feed in feedXML.Descendants("item")
